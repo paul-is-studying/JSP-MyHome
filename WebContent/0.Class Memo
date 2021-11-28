@@ -1,0 +1,40 @@
+세션과 캐시
+
+JSP에서는 내장 객체가 존재
+- JSP파일이 Java 파일로 변환이 될 때 필요한 클래스가 존재하는데, 이 클래스를 내부적으로 알아서 만들어 주고, 
+    이때 알아서 만들어 지는 객체를 내장 객체라고 부르며, 우리는 그 객체를 이용하여 프로그램을 작성할 수 있다. 
+
+- Request , Response
+  session
+   - 값 저장 : setAttribute("Key","Value");
+   - 값 꺼내기 : Object obj = session.getAttribute("Key");
+   			이러면 오브첵트값으로 나오게 됨. 
+   - 값 삭제 : boolean remove = session.removeAttribute("Key");
+   			삭제했는지 안 했는지도 확인 가능. (True & False)
+   			
+   - 세션 초기화 : session.invalidate();
+   			   로그아웃을 하면 세션 값을 싸그리 삭제해주는게 좋음.
+   			   
+   - session값 얻어오기 
+     HttpSession session = request.getSession();
+     (사용자 정보가 있는 곳에서)기존에 가지고 있는 세션값을 가지고 와서 세션값을 유지해줌.
+  
+  Cookie
+   - Cookie ck = new Cookies ("Name","Value");
+         앞에는 키가 아니라 "네임"으로.
+         키값을 주면 알아서 Value가 나오는 세션과는 달리 네임을 비교해줘야 함.
+         
+   - ck.setMaxAge(초단위);
+         지정해둔 초동안 쿠키를 사용할 수 있음.
+         
+   - response.addCookie(ck);
+         쿠키 생성
+   
+   - Cookie [] cks = request.getCookies();
+         쿠키값 불러오기. (쿠키가 하나 말고 여러개 있을 수 있기 때문에.)
+         
+	* 쿠키는 삭제가 불가능. 삭제할거였으면 세션 썻지.
+	* 다만, 다시 접속했을때 쿠키 MaxAge값에 0초를 집어 넣어서 삭제할 수 있는 방법이 있음. "다시 접속했을때만" 삭제가 가능.   
+   
+앞의 첫 문자가 대문자면 클래스 : 쿠키는 "클래스"다.
+세션 (내장객체) 는 서버에 저장되고, 쿠키 (클래스) 는 개인 컴퓨터에 저장됨. 
